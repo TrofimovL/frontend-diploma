@@ -3,7 +3,8 @@ import {Observable, Subject, throwError} from "rxjs";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment.development";
+// import {environment} from "../../../environments/environment.development";
+import {environment} from "../../../environments/environment";
 import {UserInfoType} from "../../../types/user-info.type";
 
 @Injectable({
