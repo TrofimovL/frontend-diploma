@@ -127,6 +127,7 @@ export class ArticleComponent implements OnInit {
                 }
 
                 this.comments = [(response as MultiCommentsType).comments[0], ...this.comments];
+                this.setDateFormat();
 
               },
               error: (error: HttpErrorResponse) => {
