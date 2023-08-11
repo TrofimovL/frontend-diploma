@@ -1,0 +1,45 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.header {
+  padding-top: 40px;
+
+  .container {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include header-footer-nav;
+
+
+    .contacts {
+      color: $main-color;
+      font-family: Montserrat, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .personal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition-duration: 300ms;
+      border-radius: 5px;
+      padding: 5px;
+
+      &:hover{
+        border-color: $main-color;
+      }
+
+      span {
+        color: $dark-blue;
+      }
+    }
+  }
+}

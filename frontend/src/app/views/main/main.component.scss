@@ -1,0 +1,450 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+
+.main {
+
+  .container {
+    padding-top: 40px;
+
+    .carousel {
+
+      .carousel-arrows {
+        display: flex;
+        justify-content: center;
+
+        a {
+          z-index: 3;
+          top: 380px;
+          display: flex;
+          position: absolute;
+          cursor: pointer;
+
+          &.move-backward {
+            left: calc(50% - 600px);
+          }
+
+          &.move-forward {
+            right: calc(50% - 600px);
+          }
+        }
+      }
+
+
+      .carousel-items {
+
+        padding-bottom: 120px;
+        position: relative;
+
+        .slide {
+          position: relative;
+
+          img {
+            position: absolute;
+            z-index: -2;
+            width: auto;
+            height: auto;
+            right: 0;
+          }
+
+          canvas {
+            position: absolute;
+            z-index: -1;
+          }
+
+          .content {
+            padding: 100px 80px 0;
+
+            .slide-about {
+              color: $main-color;
+              font-family: Montserrat, sans-serif;
+              font-size: 12px;
+              font-style: normal;
+              font-weight: 600;
+              letter-spacing: 4.8px;
+              text-transform: uppercase;
+            }
+
+            .slide-title {
+              @include title-Lora;
+              font-size: 50px;
+              max-width: 610px;
+              line-height: 130%;
+              margin-bottom: 20px;
+              color: #ffffff;
+
+              span {
+                color: $main-color;
+              }
+            }
+
+            .slide-description {
+              margin-bottom: 30px;
+              color: #FFF;
+              font-size: 24px;
+              line-height: 130%;
+              max-width: 456px;
+              font-family: Montserrat, sans-serif;
+              font-style: normal;
+              font-weight: 400;
+            }
+
+            .button {
+              margin-top: 20px;
+              margin-bottom: 95px;
+              padding: 15px 40px;
+              width: auto;
+              font-size: 16px;
+            }
+          }
+
+
+        }
+
+      }
+    }
+
+
+    .services {
+      margin: 120px 0;
+
+      .title {
+        @include title-Lora;
+        font-size: 38px;
+        margin-bottom: 40px;
+      }
+
+      .services-items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+
+        .services-item {
+
+          img {
+            margin-bottom: 15px;
+          }
+
+          .services-item-title {
+            color: #709FDC;
+            font-family: Montserrat, sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            margin-bottom: 10px;
+          }
+
+          .services-item-text {
+            color: $dark-blue;
+            font-size: 14px;
+            line-height: 130%;
+            margin-bottom: 33px;
+          }
+
+          .services-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .services-item-price {
+              color: $main-color;
+              font-family: Montserrat, sans-serif;
+              font-size: 20px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 130%;
+            }
+
+            .services-item-details {
+              .button {
+                padding: 15px 40px;
+              }
+            }
+          }
+
+        }
+      }
+    }
+
+
+    .about-us {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 120px;
+      gap: 68px;
+
+      .about-us-info {
+
+        .about-us-title {
+          @include title-Lora;
+          font-size: 38px;
+          line-height: 130%;
+          margin-bottom: 20px;
+        }
+
+        .about-us-description {
+          color: $dark-blue;
+          font-family: Montserrat, sans-serif;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 130%;
+          margin-bottom: 40px;
+
+          span {
+            font-weight: 500;
+          }
+
+        }
+
+        .about-us-adv-title {
+          color: $main-color;
+          @include title-Lora;
+          font-size: 26px;
+          line-height: 130%;
+          margin-bottom: 20px;
+        }
+
+        .about-us-adv-items {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          justify-content: space-between;
+
+          gap: 20px;
+
+          .about-us-adv-item {
+            width: 316px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            .about-us-adv-item-number-wrapper {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+
+              .about-us-adv-item-number {
+                color: $main-color;
+                font-family: Lora, sans-serif;
+                font-size: 50px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 130%;
+              }
+
+              .about-us-adv-item-number-bg {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                background-color: $light-blue;
+                border-radius: 50%;
+                z-index: -1;
+                top: 20px;
+              }
+            }
+
+
+            .about-us-adv-item-text {
+              color: $dark-blue;
+              font-family: Montserrat, sans-serif;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: 130%;
+              width: 256px;
+
+              span {
+                font-weight: 500;
+              }
+
+            }
+
+
+          }
+
+
+        }
+
+
+      }
+
+
+    }
+
+    .popular {
+      margin-bottom: 120px;
+
+      .title {
+        @include title-Lora;
+        font-size: 38px;
+        line-height: 130%;
+      }
+
+      .popular-cards {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+
+
+      }
+
+      .go-to-blog {
+        margin-top: 35px;
+        text-align: right;
+        color: $main-color;
+        font-family: Montserrat, sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 130%;
+        cursor: pointer;
+
+        svg {
+          margin-left: 14px;
+        }
+      }
+    }
+
+    .reviews {
+      margin-bottom: 120px;
+
+      .title {
+        color: $main-color;
+        @include title-Lora;
+        font-size: 38px;
+        line-height: 130%;
+        margin-bottom: 20px;
+      }
+
+      .carousel-arrows {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        a {
+          z-index: 3;
+          top: 130px;
+          display: flex;
+          position: absolute;
+          cursor: pointer;
+
+          &.move-backward {
+            left: calc(50% - 670px);
+          }
+
+          &.move-forward {
+            right: calc(50% - 655px);
+          }
+        }
+      }
+
+      .carousel-items{
+
+        display: flex;
+        justify-content: center;
+
+        .slide{
+          width: 396px;
+          height: 267px;
+          padding: 30px;
+          box-sizing: border-box;
+          border-radius: 5px;
+          border: 2px solid $main-color;
+
+          .slide-header{
+            display: flex;
+            align-items: center;
+
+            img{
+              margin-right: 26px;
+              width: 60px;
+              height: 60px;
+            }
+            .name{
+              color: $main-color;
+              font-family: Montserrat, sans-serif;
+              font-size: 18px;
+              font-style: normal;
+              font-weight: 600;
+            }
+          }
+
+          .slide-text{
+            color: $dark-blue;
+            font-size: 16px;
+            line-height: 140%;
+          }
+
+        }
+      }
+
+
+
+    }
+
+    .contacts{
+      display: flex;
+      align-items: flex-start;
+      justify-content: left;
+      gap: 26px;
+      margin-bottom: 120px;
+
+      .contacts-info{
+        max-width: 500px;
+
+        .title{
+          @include title-Lora;
+          color: $main-color;
+          font-size: 38px;
+          line-height: 130%;
+        }
+
+        .info-block{
+          .info-block-title{
+            color: $main-color;
+            font-family: Montserrat, sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 130%;
+            margin-top: 20px;
+            margin-bottom: 10px;
+          }
+
+          .info-block-text{
+            color: $dark-blue;
+            font-size: 14px;
+            line-height: 130%; /* 18.2px */
+            font-family: Montserrat, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+
+            a{
+              text-decoration: none;
+              color: $dark-blue;
+            }
+          }
+
+          .info-block-icons{
+            svg{
+              margin-right: 20px;
+            }
+          }
+        }
+
+      }
+
+
+    }
+
+
+  }
+}
+
+

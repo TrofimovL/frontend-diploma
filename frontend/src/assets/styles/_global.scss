@@ -1,0 +1,35 @@
+@import "variables";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.button {
+  background-color: $main-color;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+
+  &:hover{
+    border-color: $dark-blue;
+  }
+
+  &:disabled{
+    background-color: $gray-color;
+    cursor: not-allowed;
+  }
+}

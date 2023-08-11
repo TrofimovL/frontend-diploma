@@ -1,0 +1,53 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.footer {
+  padding: 40px 0 54px;
+
+
+  background-color: $light-blue;
+
+  .container {
+
+    .nav-line {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+
+      @include header-footer-nav
+    }
+
+    .info-line {
+      display: flex;
+      align-items: baseline;
+      gap: 60px;
+
+      .info-line-item {
+        font-size: 16px;
+
+        .info-line-item-title {
+          color: $main-color;
+          font-family: Montserrat, sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        .info-line-item-text {
+          color: $dark-blue;
+          text-decoration: none;
+
+          &.address-text{
+            max-width: 253px;
+          }
+        }
+
+      }
+    }
+    .rights-line{
+      margin-top: 6px;
+      color: $main-color;
+    }
+
+  }
+}

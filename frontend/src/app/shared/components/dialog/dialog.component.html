@@ -1,0 +1,82 @@
+<div class="dialog">
+
+
+  <div class="cross">
+    <svg mat-dialog-close width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="1.93562" y1="2.64999" x2="13.9564" y2="14.6708" stroke="#BEBEBE" stroke-linecap="round"/>
+      <line x1="13.9236" y1="2.62978" x2="1.90277" y2="14.6506" stroke="#BEBEBE" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="form" [formGroup]="serviceForm" *ngIf="!success">
+    <div class="title">Заявка на услугу</div>
+
+    <div class="inputs">
+      <div class="input-block" *ngIf="this.orderType === orderTypeEnum.order">
+        <div class="select">
+          <select class="input">
+            <option *ngFor="let serviceName of services"
+                    (click)="chooseSelectItem(serviceName)"
+                    [selected]="serviceName === service">
+              {{serviceName}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-block">
+        <input class="input" type="text" placeholder="Ваше имя"
+               formControlName="name"
+               [ngStyle]="{'border-color': serviceForm.get('name')?.invalid && (serviceForm.get('name')?.dirty || serviceForm.get('name')?.touched) ? 'red' : ''}">
+        <div *ngIf="serviceForm.get('name')?.invalid
+                  && (serviceForm.get('name')?.dirty || serviceForm.get('name')?.touched)">
+          <div class="input-block-error"
+               *ngIf="serviceForm.get('name')?.errors?.['name']">
+            Имя должно начинаться с заглавной буквы
+          </div>
+          <div class="input-block-error"
+               *ngIf="serviceForm.get('name')?.errors?.['required']">
+            Это поле обязательно
+          </div>
+        </div>
+      </div>
+
+      <div class="input-block">
+        <input class="input" type="text" placeholder="Ваш номер телефона"
+               formControlName="phone"
+               [imask]="{mask: '+{7}(000)000-00-00'}"
+               [ngStyle]="{'border-color': serviceForm.get('phone')?.invalid && (serviceForm.get('phone')?.dirty || serviceForm.get('phone')?.touched) ? 'red' : ''}">
+        <div *ngIf="serviceForm.get('phone')?.invalid
+                  && (serviceForm.get('phone')?.dirty || serviceForm.get('phone')?.touched)">
+          <div class="input-block-error"
+               *ngIf="serviceForm.get('phone')?.errors?.['phone']">
+            Введите корректный номер телефона
+          </div>
+          <div class="input-block-error"
+               *ngIf="serviceForm.get('phone')?.errors?.['required']">
+            Это поле обязательно
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-button">
+      <button class="button" [disabled]="serviceForm.invalid" (click)="sendRequest()">Оставить заявку</button>
+    </div>
+  </div>
+
+  <div class="thanks" *ngIf="success">
+    <div class="title">Спасибо за вашу заявку!</div>
+
+    <div class="thanks-promise">
+      Мы свяжемся с вами при первой же возможности.
+    </div>
+
+    <div class="action-button">
+      <button class="button" mat-dialog-close>Окей</button>
+    </div>
+
+  </div>
+
+</div>
+

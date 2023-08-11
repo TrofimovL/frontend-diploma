@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-category">{{article.category}}</div>
+  <div class="img-wrapper" style="background-image: url('assets/images/pages/blog/{{article.image}}')"></div>
+  <div class="card-info">
+    <div class="card-info-text">
+      <div class="card-title">{{article.title}}</div>
+      <div class="card-text">{{article.description}}</div>
+    </div>
+    <a class="read-more" [routerLink]="['/article', article.url]">Читать дальше</a>
+  </div>
+</div>

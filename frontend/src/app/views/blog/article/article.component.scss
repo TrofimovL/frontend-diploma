@@ -1,0 +1,326 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.article {
+  .container {
+    .pre-title {
+      color: $main-color;
+      font-size: 16px;
+      line-height: 130%; /* 20.8px */
+      margin-top: 80px;
+      margin-bottom: 60px;
+
+      span {
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 130%; /* 20.8px */
+      }
+    }
+
+    div.first-block {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 60px;
+
+      .left-side {
+        color: $main-color;
+        max-width: 610px;
+
+        .title {
+          @include title-Lora;
+          font-size: 38px;
+          line-height: 130%; /* 49.4px */
+          margin-bottom: 40px;
+        }
+
+        .title-description {
+          font-size: 20px;
+          line-height: 130%; /* 26px */
+        }
+      }
+
+      .right-side {
+        img {
+          width: 527px;
+          height: 320px;
+          border-radius: 5px;
+        }
+      }
+
+
+    }
+
+    .second-block {
+      color: $dark-blue;
+      font-size: 14px;
+      line-height: 130%; /* 18.2px */
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 60px;
+
+      .second-block-left {
+        max-width: 818px;
+
+
+        #article-text {
+
+          h1 {
+            color: $main-color;
+            font-family: Montserrat, sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 130%; /* 26px */
+          }
+
+          h3 {
+            color: $main-color;
+
+            font-family: Montserrat, sans-serif;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 130%; /* 18.2px */
+          }
+        }
+
+        .share {
+          display: flex;
+          align-items: center;
+          margin: 60px 0;
+
+
+          span {
+            color: $main-color;
+            font-family: Montserrat, sans-serif;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 130%; /* 18.2px */
+            margin-right: 20px;
+          }
+
+          svg {
+            margin-right: 13px;
+          }
+        }
+
+
+        .comments {
+          .comments-title {
+            color: $main-color;
+            @include title-Lora;
+            font-size: 38px;
+            line-height: 130%; /* 49.4px */
+            margin-bottom: 20px;
+          }
+
+          .registration-prompt {
+            a {
+              color: $main-color;
+            }
+          }
+
+          .write-your-comment {
+            textarea {
+              width: 100%;
+              height: 248px;
+              padding: 20px;
+              margin-top: 40px;
+              font-size: 14px;
+              line-height: 130%; /* 18.2px */
+              border-radius: 3px;
+              border: 2px solid $main-color;
+              background: #FFF;
+              margin-bottom: 20px;
+
+              &::placeholder {
+                color: $gray-color;
+              }
+            }
+
+            .button-wrapper {
+              .button {
+                width: 422px;
+                padding: 15px 40px;
+                font-size: 16px;
+                line-height: 130%; /* 20.8px */
+                margin-top: 0;
+              }
+            }
+
+          }
+
+
+          .comments-cards {
+            margin-top: 60px;
+            margin-bottom: 120px;
+
+            .comment-card {
+              margin-bottom: 40px;
+
+
+              .photo-name-date {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+
+
+                .photo {
+                  margin-right: 26px;
+
+                  img {
+                    background-color: $light-blue;
+                    border-radius: 50%;
+                    border: 2px solid $main-color;
+                  }
+
+                }
+
+                .name-date {
+                  .name {
+                    color: $main-color;
+                    font-family: Montserrat, sans-serif;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 130%; /* 23.4px */
+                    margin-bottom: 10px;
+                  }
+
+                  .date {
+                    color: $bebebe-color;
+                    font-family: Montserrat, sans-serif;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 130%; /* 18.2px */
+                  }
+                }
+              }
+
+              .text {
+                color: $dark-blue;
+                font-family: Montserrat, sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 140%; /* 19.6px */
+                margin-bottom: 39px;
+                overflow-wrap: break-word;
+              }
+
+              .reactions {
+                display: flex;
+                align-items: center;
+
+                .reactions-block{
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+
+                  span {
+                    margin-right: 3px;
+                  }
+
+                  svg {
+                    margin-right: 15px;
+                  }
+                }
+
+
+
+              }
+
+
+            }
+
+            .comments-load-more {
+              margin-top: 20px;
+              cursor: pointer;
+
+              span {
+                color: #709FDC;
+                font-family: Montserrat, sans-serif;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 130%; /* 26px */
+                margin-right: 10px;
+              }
+            }
+
+
+          }
+        }
+
+
+      }
+
+
+      .read-also {
+        .also-title {
+          color: $main-color;
+          @include title-Lora;
+          font-size: 26px;
+          line-height: 130%; /* 33.8px */
+          margin-bottom: 20px;
+        }
+
+        .read-also-cards {
+          app-card {
+            margin-bottom: 60px;
+          }
+        }
+      }
+    }
+
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
