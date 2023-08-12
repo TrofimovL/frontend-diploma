@@ -5,16 +5,17 @@ import {
   OnInit,
 } from '@angular/core';
 import {DefaultResponseType} from "../../../../types/default-response.type";
-import {HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {RequestsService} from "../../../shared/services/requests.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ArticlesBlogType} from "../../../../types/articles-blog.type";
 import {CategoryType} from "../../../../types/category.type";
 import {ActivatedRoute, Router} from "@angular/router";
-import {finalize} from "rxjs";
+import {debounceTime, finalize} from "rxjs";
 import {LoaderService} from "../../../shared/services/loader.service";
 import {ActiveCategoryType} from "../../../../types/active-category.type";
 import {SearchParamsType} from "../../../../types/search-params.type";
+import {ActiveParamsUtil} from "../../../shared/utils/active-params.util";
 
 @Component({
   selector: 'app-blog',
@@ -30,9 +31,9 @@ export class BlogComponent implements OnInit, OnDestroy {
     pages: 0,
     items: []
   };
-  categories!: ActiveCategoryType[];
-  urlParams: HttpParams = new HttpParams();
+  categories: ActiveCategoryType[] = [];
   searchParams: SearchParamsType = {categories: [], page: 1};
+  appliedFilters: { name: string, url: string }[] = [];
 
 
   constructor(private requestsService: RequestsService,
@@ -40,14 +41,11 @@ export class BlogComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private loaderService: LoaderService) {
-
   }
 
   ngOnInit() {
     this.requestsService.isBlogPage(true);
-
     this.initArticles();
-
     this.getCategories();
   }
 
@@ -55,53 +53,44 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.requestsService.isBlogPage(false);
   }
 
-
   initArticles() {
     this.activatedRoute.queryParams
+      .pipe(
+        debounceTime(500)
+      )
       .subscribe((params) => {
+        this.loaderService.show();
 
-        this.urlParams = new HttpParams({
-          fromObject: params
-        });
+        this.searchParams = ActiveParamsUtil.processParams(params);
 
-        const page = this.urlParams.get('page');
-        if (page) {
-          this.searchParams.page = +page;
+        if (this.categories.length > 0) {
+          this.setActiveParams();
         }
 
-        this.getArticles();
-      });
-  }
 
+        this.requestsService.getArticles(params)
+          .pipe(finalize(() => {
+            this.loaderService.hide();
+          }))
+          .subscribe({
+            next: (response: ArticlesBlogType | DefaultResponseType) => {
 
-  getArticles() {
-    this.loaderService.show();
+              const error: string | undefined = (response as DefaultResponseType).message;
 
-    this.requestsService.getArticles('?' + this.urlParams.toString())
-      .pipe(finalize(() => {
-        this.loaderService.hide();
-      }))
-      .subscribe({
-        next: (response: ArticlesBlogType | DefaultResponseType) => {
+              if (error) {
+                this._snackBar.open(error);
+                throw new Error(error);
+              }
 
-          const error: string | undefined = (response as DefaultResponseType).message;
+              this.blogData = (response as ArticlesBlogType);
 
-          if (error) {
-            this._snackBar.open(error);
-            throw new Error(error);
-          }
+              this.pagesArray = [...Array(this.blogData.pages).keys()].map(page => ++page);
 
-          this.blogData = (response as ArticlesBlogType);
-
-          if (this.pagesArray.length === 0) {
-            for (let i = 0; i < this.blogData.pages; i++) {
-              this.pagesArray.push(i + 1);
+            },
+            error: (error: HttpErrorResponse) => {
+              this._snackBar.open(error.message);
             }
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this._snackBar.open(error.message);
-        }
+          });
       });
   }
 
@@ -139,17 +128,20 @@ export class BlogComponent implements OnInit, OnDestroy {
   }
 
   setActiveParams() {
-    const activeCategoryNames = this.urlParams.getAll('categories');
+    const activeCategoryNames: string[] = this.searchParams.categories;
+    this.appliedFilters = [];
 
-    if (activeCategoryNames && activeCategoryNames.length > 0) {
+    if (activeCategoryNames.length > 0) {
       this.categories.forEach(category => {
         category.active = false;
 
-        activeCategoryNames!.forEach(activeCategoryName => {
+        activeCategoryNames.forEach((activeCategoryName: string) => {
           if (category.url === activeCategoryName) {
             category.active = true;
-            this.searchParams.categories.push(category);
-
+            this.appliedFilters.push({
+              name: category.name,
+              url: category.url
+            });
           }
         });
       });
@@ -163,88 +155,61 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.filterOpen = !this.filterOpen;
   }
 
-  removeActiveCategory(activeCategory: ActiveCategoryType) {
-    const indexActive = this.searchParams.categories.indexOf(activeCategory);
+  updateSearchParams(categoryUrl: string) {
+    const isIncluded = !!this.searchParams.categories.find(c => c === categoryUrl);
 
-
-    if (indexActive !== -1) {
-      this.searchParams.categories.splice(indexActive, 1);
-    }
-
-    const category = this.categories.find(item => {
-      return item === activeCategory;
-    });
-
-    if (category) {
-      category.active = !category.active;
-    }
-  }
-
-  activeCategoryToggle(index: number) {
-    this.categories[index].active = !this.categories[index].active;
-
-    const isActive = !!this.searchParams.categories.find(item => {
-      return item.name === this.categories[index].name;
-    });
-
-    if (isActive) {
-      const i = this.searchParams.categories.findIndex(item => {
-        return item.name === this.categories[index].name;
-      });
-      this.searchParams.categories.splice(i, 1);
+    if (isIncluded) {
+      this.searchParams.categories = this.searchParams.categories.filter(c => c !== categoryUrl);
+      const category = this.categories.find(category => category.url === categoryUrl);
+      if (category) {
+        category.active = false;
+        this.appliedFilters = this.appliedFilters.filter(filter => filter.url !== categoryUrl);
+      }
     } else {
-      this.searchParams.categories.push(this.categories[index]);
-    }
-  }
-
-  setQueryParam(key: 'category' | 'page', value: string) {
-    if (key === 'page') {
-      if (!this.urlParams.toString().includes('page')) {
-        this.urlParams = this.urlParams.append('page', value);
-      } else {
-        this.urlParams = this.urlParams.set('page', value);
-      }
-    } else if (key === "category") {
-      if (this.urlParams.toString().includes('page')) {
-        this.searchParams.page = 1;
-        this.urlParams = this.urlParams.set('page', 1);
-      }
-
-      const isIncluded = this.urlParams.toString().includes(value);
-
-      if (isIncluded) {
-        this.urlParams = this.urlParams.delete('categories', value);
-      } else {
-        this.urlParams = this.urlParams.append('categories', value);
+      this.searchParams.categories = [...this.searchParams.categories, categoryUrl];
+      const category = this.categories.find(category => category.url === categoryUrl);
+      if (category) {
+        category.active = true;
+        this.appliedFilters.push({
+          name: category.name,
+          url: category.url
+        });
       }
     }
+    this.searchParams.page = 1;
 
-    this.router.navigate([], {
-      queryParams: {
-        'categories': this.urlParams.getAll('categories'),
-        'page': this.urlParams.get('page')
-      }
+    this.router.navigate(['/blog'], {
+      queryParams: this.searchParams
     });
   }
 
   openPrevPage() {
-    if (this.searchParams.page > 1) {
+    if (this.searchParams.page && this.searchParams.page > 1) {
       this.searchParams.page--;
-      this.setQueryParam('page', (this.searchParams.page).toString());
+
+      this.router.navigate(['/blog'], {
+        queryParams: this.searchParams
+      });
     }
   }
 
   openPage(page: number) {
     if (this.searchParams.page !== page) {
       this.searchParams.page = page;
-      this.setQueryParam('page', page.toString());
+
+      this.router.navigate(['/blog'], {
+        queryParams: this.searchParams
+      });
     }
   }
 
   openNextPage() {
-    if (this.searchParams.page < this.blogData.pages) {
+    if (this.searchParams.page && this.searchParams.page < this.blogData.pages) {
       this.searchParams.page++;
-      this.setQueryParam('page', (this.searchParams.page).toString());
+
+      this.router.navigate(['/blog'], {
+        queryParams: this.searchParams
+      });
     }
   }
 

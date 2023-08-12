@@ -6,11 +6,11 @@
 
     <div class="filter-bar">
       <div class="filter-items">
-        <div class="filter-item-wrapper" *ngFor="let activeCategory of searchParams.categories;">
-          <div class="filter-item" *ngIf="activeCategory">
-            <span>{{activeCategory.name}}</span>
+        <div class="filter-item-wrapper" *ngFor="let filter of appliedFilters;">
+          <div class="filter-item" *ngIf="filter">
+            <span>{{filter.name}}</span>
             <svg class="filter-item-cross"
-                 (click)="removeActiveCategory(activeCategory); setQueryParam('category', activeCategory.url)"
+                 (click)="updateSearchParams(filter.url)"
                  width="16" height="17" viewBox="0 0 16 17" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_3881_586)">
@@ -46,8 +46,8 @@
 
         <div class="filter-menu" *ngIf="filterOpen">
           <div class="filter-menu-item"
-               *ngFor="let category of categories; let i = index;"
-               (click)="activeCategoryToggle(i); setQueryParam('category', category.url)">
+               *ngFor="let category of categories"
+               (click)=" updateSearchParams(category.url)">
             <div class="filter-menu-item-text" [class.active]="category.active">{{category.name}}</div>
             <div class="filter-menu-item-sign" [class.active]="category.active" *ngIf="!category.active">+</div>
             <div class="filter-menu-item-sign" [class.active]="category.active" *ngIf="category.active">-</div>
@@ -90,10 +90,6 @@
                 stroke-linejoin="round"/>
         </svg>
       </div>
-
-
     </div>
-
-
   </div>
 </div>

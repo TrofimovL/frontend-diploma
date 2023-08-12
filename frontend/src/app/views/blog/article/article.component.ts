@@ -215,7 +215,7 @@ export class ArticleComponent implements OnInit {
         }
       }
     } else {
-      this._snackBar.open('Для оценки комментария необходимо зарегистрироваться')
+      this._snackBar.open('Для оценки комментария необходимо зарегистрироваться');
     }
 
 
@@ -278,8 +278,8 @@ export class ArticleComponent implements OnInit {
   setDateFormat() {
     this.comments.forEach(comment => {
       const date = new Date(comment.date);
-      comment.date = `${("0" + date.getDate()).slice(-2)}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
-    })
+      comment.date = `${("0" + date.getDate()).slice(-2)}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
+    });
   }
 
 

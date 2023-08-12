@@ -12,6 +12,7 @@ import {ArticleFullType} from "../../../types/article-full.type";
 import {MultiCommentsType} from "../../../types/multi-comments.type";
 import {CommentActionEnum} from "../../../types/comment-action.enum";
 import {CommentActionType} from "../../../types/comment-action.type";
+import {Params} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,6 @@ export class RequestsService {
   private service!: string;
   private orderType!: OrderTypeEnum;
   isBlogPage$: Subject<boolean> = new Subject<boolean>();
-  blogSearch = '';
 
   constructor(private http: HttpClient) {
   }
@@ -50,8 +50,10 @@ export class RequestsService {
     return this.http.get<ArticleShortType[] | DefaultResponseType>(environment.api + 'articles/top');
   }
 
-  getArticles(params = ''): Observable<ArticlesBlogType | DefaultResponseType> {
-    return this.http.get<ArticlesBlogType | DefaultResponseType>(environment.api + 'articles' + params);
+  getArticles(params: Params): Observable<ArticlesBlogType | DefaultResponseType> {
+    return this.http.get<ArticlesBlogType | DefaultResponseType>(environment.api + 'articles', {
+      params: params
+    });
   }
 
   getArticle(url: string): Observable<ArticleFullType | DefaultResponseType> {
