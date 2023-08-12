@@ -28,7 +28,6 @@ export class ArticleComponent implements OnInit {
   comments!: CommentType[];
   commentsCount!: number;
   textarea = '';
-  isCommentSent = false;
   offset = 0;
   commentActionEnum = CommentActionEnum;
 
@@ -115,7 +114,7 @@ export class ArticleComponent implements OnInit {
             throw new Error(response.message);
           }
 
-          this.isCommentSent = true;
+          this.textarea = '';
 
           this.requestsService.getComments(this.article.id, 0)
             .subscribe({
@@ -173,25 +172,20 @@ export class ArticleComponent implements OnInit {
     if (this.isLogged) {
       const comment = this.comments.find(c => c.id === commentId);
 
-      if ((action === CommentActionEnum.like && !comment?.likeApplied)
-        || (action === CommentActionEnum.dislike && !comment?.dislikeApplied)
-        || (action === CommentActionEnum.violate && !comment?.violateApplied)) {
-
-        this.requestsService.commentAction(commentId, action)
-          .subscribe({
-            next: (r: DefaultResponseType) => {
-              if (r.error) {
-                this._snackBar.open('Ваша жалоба уже отправлена');
-                throw new Error(r.message);
-              }
-            },
-            error: () => {
-              if (action === CommentActionEnum.violate) {
-                this._snackBar.open('Ваша жалоба уже отправлена');
-              }
+      this.requestsService.commentAction(commentId, action)
+        .subscribe({
+          next: (r: DefaultResponseType) => {
+            if (r.error) {
+              this._snackBar.open('Ваша жалоба уже отправлена');
+              throw new Error(r.message);
             }
-          });
-      }
+          },
+          error: () => {
+            if (action === CommentActionEnum.violate) {
+              this._snackBar.open('Ваша жалоба уже отправлена');
+            }
+          }
+        });
 
       if (comment) {
         if (action === CommentActionEnum.like && !comment.likeApplied) {
@@ -201,6 +195,9 @@ export class ArticleComponent implements OnInit {
             comment.dislikesCount--;
             comment.dislikeApplied = false;
           }
+        } else if (action === CommentActionEnum.like && comment.likeApplied) {
+          comment.likesCount--;
+          comment.likeApplied = false;
         }
         if (action === CommentActionEnum.dislike && !comment.dislikeApplied) {
           comment.dislikesCount++;
@@ -209,6 +206,9 @@ export class ArticleComponent implements OnInit {
             comment.likesCount--;
             comment.likeApplied = false;
           }
+        } else if (action === CommentActionEnum.dislike && comment.dislikeApplied) {
+          comment.dislikesCount--;
+          comment.dislikeApplied = false;
         }
         if (action === CommentActionEnum.violate && !comment.violateApplied) {
           comment.violateApplied = true;

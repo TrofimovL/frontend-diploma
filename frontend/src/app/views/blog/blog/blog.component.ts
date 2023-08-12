@@ -139,7 +139,7 @@ export class BlogComponent implements OnInit, OnDestroy {
   }
 
   setActiveParams() {
-    const activeCategoryNames = this.urlParams.getAll('categories[]');
+    const activeCategoryNames = this.urlParams.getAll('categories');
 
     if (activeCategoryNames && activeCategoryNames.length > 0) {
       this.categories.forEach(category => {
@@ -213,15 +213,15 @@ export class BlogComponent implements OnInit, OnDestroy {
       const isIncluded = this.urlParams.toString().includes(value);
 
       if (isIncluded) {
-        this.urlParams = this.urlParams.delete('categories[]', value);
+        this.urlParams = this.urlParams.delete('categories', value);
       } else {
-        this.urlParams = this.urlParams.append('categories[]', value);
+        this.urlParams = this.urlParams.append('categories', value);
       }
     }
 
     this.router.navigate([], {
       queryParams: {
-        'categories[]': this.urlParams.getAll('categories[]'),
+        'categories': this.urlParams.getAll('categories'),
         'page': this.urlParams.get('page')
       }
     });

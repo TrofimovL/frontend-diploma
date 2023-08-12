@@ -80,7 +80,7 @@
             статье!
           </div>
 
-          <div class="write-your-comment" *ngIf="isLogged && !isCommentSent">
+          <div class="write-your-comment" *ngIf="isLogged">
             <textarea [(ngModel)]="textarea" placeholder="Напишите Ваш комментарий к статье..."></textarea>
             <div class="button-wrapper">
               <button class="button" (click)="postComment()">Опубликовать комментарий</button>
