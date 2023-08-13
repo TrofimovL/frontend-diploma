@@ -4,7 +4,7 @@ import {Observable, of} from "rxjs";
 export class CustomValidators {
 
   static nameValidator(control: AbstractControl): ValidationErrors | null {
-    const result = /(([А-Я])([а-я]+\s|[а-я]+))+/.test(control.value);
+    const result = /(([А-Я])([а-я]+\s|[а-я]+))+$/.test(control.value);
     return result ? null : {name: {value: control.value}};
   }
 

@@ -11,7 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ArticlesBlogType} from "../../../../types/articles-blog.type";
 import {CategoryType} from "../../../../types/category.type";
 import {ActivatedRoute, Router} from "@angular/router";
-import {debounceTime, finalize} from "rxjs";
+import {finalize} from "rxjs";
 import {LoaderService} from "../../../shared/services/loader.service";
 import {ActiveCategoryType} from "../../../../types/active-category.type";
 import {SearchParamsType} from "../../../../types/search-params.type";
@@ -53,11 +53,9 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.requestsService.isBlogPage(false);
   }
 
+
   initArticles() {
     this.activatedRoute.queryParams
-      .pipe(
-        debounceTime(500)
-      )
       .subscribe((params) => {
         this.loaderService.show();
 
@@ -147,7 +145,6 @@ export class BlogComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 
   // functions further will be activated only by user
 
