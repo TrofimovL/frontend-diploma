@@ -69,6 +69,10 @@
     margin-top: 106px;
     margin-bottom: 92px;
 
+    @media screen and (max-width: 1024px) {
+      
+    }
+
     .content {
       .title {
         color: $main-color;

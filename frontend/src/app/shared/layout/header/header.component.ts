@@ -34,12 +34,12 @@ export class HeaderComponent implements OnInit {
       .subscribe((isLogged: boolean) => {
         this.isLogged = isLogged;
 
-        if(this.isLogged){
+        if (this.isLogged) {
           this.getUserInfo();
         }
       });
 
-    if(this.isLogged){
+    if (this.isLogged) {
       this.getUserInfo();
     }
 
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  getUserInfo(){
+  getUserInfo() {
     this.authService.getUserInfo()
       .subscribe({
         next: (resp: UserInfoType | DefaultResponseType) => {

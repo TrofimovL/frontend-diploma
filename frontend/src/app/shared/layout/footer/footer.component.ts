@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {DialogComponent} from "../../components/dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderTypeEnum} from "../../../../types/order-type.enum";
