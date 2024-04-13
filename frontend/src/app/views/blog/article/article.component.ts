@@ -70,7 +70,8 @@ export class ArticleComponent implements OnInit {
           this.commentsCount = this.article.commentsCount;
 
           this.comments = (this.article.comments as CommentType[]);
-          this.setDateFormat();
+
+          this.comments = this.setDateFormat(this.comments)
           this.markLikedDisliked();
 
         },
@@ -106,6 +107,7 @@ export class ArticleComponent implements OnInit {
 
 
   postComment() {
+    console.log(this.comments)
     this.requestsService.postComment(this.textarea, this.article.id)
       .subscribe((response: DefaultResponseType) => {
           this._snackBar.open(response.message);
@@ -125,8 +127,9 @@ export class ArticleComponent implements OnInit {
                   throw new Error(error);
                 }
 
-                this.comments = [(response as MultiCommentsType).comments[0], ...this.comments];
-                this.setDateFormat();
+                const newComment = this.setDateFormat([(response as MultiCommentsType).comments[0]] as CommentType[])
+
+                this.comments = [...newComment, ...this.comments];
 
               },
               error: (error: HttpErrorResponse) => {
@@ -148,16 +151,16 @@ export class ArticleComponent implements OnInit {
             throw new Error(error);
           }
 
+          const loadedComments = this.setDateFormat((response as MultiCommentsType).comments)
+
           if (this.offset === 0) {
             this.comments = (response as MultiCommentsType).comments;
           } else {
-            this.comments = [...this.comments, ...(response as MultiCommentsType).comments];
+            this.comments = [...this.comments, ...loadedComments];
           }
 
 
           this.offset += 10;
-
-          this.setDateFormat();
 
           this.markLikedDisliked();
 
@@ -275,11 +278,14 @@ export class ArticleComponent implements OnInit {
     }
   }
 
-  setDateFormat() {
-    this.comments.forEach(comment => {
+  setDateFormat(comments: CommentType[]) {
+
+    comments.forEach(comment => {
       const date = new Date(comment.date);
       comment.date = `${("0" + date.getDate()).slice(-2)}.${("0" + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
     });
+
+    return comments;
   }
 
 
